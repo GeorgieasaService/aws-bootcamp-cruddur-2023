@@ -6,7 +6,7 @@ Enter Cruddur, an upcoming social media platform built in the cloud over a 13-14
 
 # Journal
 
-The `/journal` directory contains
+The `/journal` directory contains weekly updates on each section of the project.
 
 - [ ] [Week 0](journal/week0.md)
 - [ ] [Week 1](journal/week1.md)
