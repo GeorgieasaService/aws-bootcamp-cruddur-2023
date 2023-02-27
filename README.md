@@ -7,8 +7,8 @@ Enter Cruddur, an upcoming social media platform built in the cloud over a 13-14
 # Stack Used
 - AWS
 - Python
-Javascript
-Docker
+- Javascript
+- Docker
 
 # Journal
 
