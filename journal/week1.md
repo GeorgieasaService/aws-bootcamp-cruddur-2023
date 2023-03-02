@@ -14,3 +14,6 @@ Containerisation offers quicker performance ina dev/test environment in the sens
 # Frontend
 
 ![image](https://user-images.githubusercontent.com/67550608/221628001-500297ee-0e69-46c8-95d0-01558e5c23f7.png)
+
+# Deploying DynamoDB local
+DynamoDB local is a way to run an emulation of DynamoDB which is a lot faster.
