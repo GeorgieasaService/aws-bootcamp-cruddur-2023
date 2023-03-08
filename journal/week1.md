@@ -7,20 +7,21 @@ This week we launched our application using two docker containers, one hosting t
 Containerisation offers quicker performance in a dev/test environment in the sense that we can quickly kill and restart containers
 
 ### **Why is containerisation popular?**
-It is a agnostic way to run application.
-Most engineers started developing apps on containers due to the simplicity to pass the package without considering requirements. Containerisation offers quicker performance in a dev/test environment in the sense that we can quickly kill and restart containers
+It is a agnostic way to run an application.
+Most engineers started developing apps on containers due to the simplicity to pass the package to other engineers without worrying about system requirements. Containerisation offers quicker performance in a dev/test environment in the sense that we can quickly kill and restart containers
 
 
-**Managed Vs Unmanaged Container**
+**Managed vs Unmanaged Containers**
 
-Managed Containers means that the Provider (eg. AWS) manages the underlying services of the container (ECS or EKS). In this case Cloud provider will also be managing the security prospective.
+Managed Containers means that the Cloud Provider (eg. AWS) manages the underlying services of the container (ECS or EKS). Here the Cloud provider also assumes responsibility for the security of the containers.
 
-Unmanaged Containers means you are running your container on your servers and you have to manage the entire system. In this case you will be in charged of applying security patches.
+Unmanaged Containers means you are running your container on your servers and you are responsible for managing the entire system. In this case you will be in charged of applying security patches.
 
 
 
 
 ### **Docker Components**
+![image](https://user-images.githubusercontent.com/67550608/223673381-d4a2e3a1-0daa-4261-9031-54700bb1fe76.png)
 
 
 - Client is local installation of docker on your system (build, pull, run features)
@@ -33,7 +34,7 @@ Container Security is the practice of protecting your application hosted on comp
 
 #### **Security Best Practice**
 - Keep Host & Docker Updated to latest security patches.
-- Docker Daemon & containers should run in non root user mode
+- Docker Daemon & containers should run in non-root user mode
 - Image Vulnerability Scanning
 - Trust a Private vs Public Image Registry
 - No Sensitive Data in Docker Files or Images
@@ -45,7 +46,7 @@ Container Security is the practice of protecting your application hosted on comp
 
 
 #### **Docker Compose** 
-It is a tool for defining and running multi container Docker Applications (It's a .yml file).
+It is a tool for defining and running multi-container Docker Applications (It's a .yml file).
 
 ### Tool to identify vulnerabilities in your Docker Compose
 Snyk OpenSource Security
@@ -111,7 +112,7 @@ docker run --rm -p 4567:4567 -it -e FRONTEND_URL='*' -e BACKEND_URL='*' backend-
 ```
 
 #### Creating docker frontend
-move to the frontend folder and install npm
+move to the frontend-react-js directory and install npm
 this command will be execute every time you launch the gitpod session
 ```
 cd frontend-react-js
