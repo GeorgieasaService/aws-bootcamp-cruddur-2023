@@ -44,6 +44,9 @@ trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
  
 app = Flask(__name__)
+# Xray
+XRayMiddleware(app, xray_recorder)
+
 # Honeycomb
 # Initialize automatic instrumentation with Flask
 FlaskInstrumentor().instrument_app(app)
