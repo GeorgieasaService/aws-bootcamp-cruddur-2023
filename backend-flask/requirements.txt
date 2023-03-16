@@ -12,3 +12,5 @@ rollbar
 
 aws-xray-sdk
 
+psycopg[binary]
+psycopg[pool]
