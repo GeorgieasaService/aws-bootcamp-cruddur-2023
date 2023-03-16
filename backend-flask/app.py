@@ -114,7 +114,9 @@ def after_request(response):
     return response
 '''
 
-
+# send exceptions from `app` to rollbar, using flask's signal system.
+got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+    
 @app.route('/rollbar/test')
 def rollbar_test():
     rollbar.report_message('Hello World!', 'warning')
