@@ -26,13 +26,13 @@ from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExport
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.sdk.trace.export import ConsoleSpanExporter, SimpleSpanProcessor
-'''
+
 '''
 # Xray
 xray_url = os.getenv("AWS_XRAY_URL")
 xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
 '''
-'''
+
 # Cloudwatch
 import watchtower
 import logging
@@ -44,7 +44,7 @@ import rollbar
 import rollbar.contrib.flask
 from flask import got_request_exception
 
-'''
+
 '''
 # Configuring Logger to Use CloudWatch
 LOGGER = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ LOGGER.addHandler(console_handler)
 LOGGER.addHandler(cw_handler)
 LOGGER.info("test log")
 '''
-'''
+
 # Honeycomb
 # Initialize tracing and an exporter that can send data to Honeycomb
 provider = TracerProvider()
@@ -90,12 +90,12 @@ def init_rollbar():
     # send exceptions from `app` to rollbar, using flask's signal system.
     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
-'''
+
 '''
 # Xray
 XRayMiddleware(app, xray_recorder)
 '''
-'''
+
 # Honeycomb
 # Initialize automatic instrumentation with Flask
 FlaskInstrumentor().instrument_app(app)
@@ -113,7 +113,7 @@ cors = CORS(
 )
 
 
-'''
+
 '''
 # Cloudwatch Logs
 @app.after_request
@@ -122,7 +122,7 @@ def after_request(response):
     LOGGER.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
     return response
 '''
-'''
+
 # send exceptions from `app` to rollbar, using flask's signal system.
 got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
     
@@ -168,12 +168,12 @@ def data_create_message():
 
 @app.route("/api/activities/home", methods=['GET'])
 def data_home():
-  #data = HomeActivities.run()
-  '''
+  data = HomeActivities.run()
+  
   '''
   data = HomeActivities.run(Logger=LOGGER)
   '''
-  '''
+  
   return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
