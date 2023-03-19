@@ -12,7 +12,7 @@ For web/mobile apps, Cognito provides
 - OAUTH: Usually used alongside openID Connect to authenticate credentials
 
 ## User Pool
-
+Used for user login/sign-up
 
 ## Identity Pool
-
+Used to provide temporary AWS credentials to a user
