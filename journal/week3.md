@@ -6,7 +6,4 @@ For web/mobile apps, Cognito provides
 - Authorization: Manage access to services
 - User Management: Allow the creation and management of a serverless user dbs
 
-User Pools
- 
 
-Identity Pools
