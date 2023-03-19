@@ -6,4 +6,13 @@ For web/mobile apps, Cognito provides
 - Authorization: Manage access to services
 - User Management: Allow the creation and management of a serverless user dbs
 
+## Authentication terms to remember
+- SAML: Single-point or single-means of authentication to an application
+- OpenID Connect: Using existing credentials (Instagram, LinkedIn etc.) to authenticate. **NOTE** it doesn't perform authorisation
+- OAUTH: Usually used alongside openID Connect to authenticate credentials
+
+## User Pool
+
+
+## Identity Pool
 
