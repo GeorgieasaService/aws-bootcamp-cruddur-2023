@@ -1,4 +1,4 @@
-# Week 3 — Cognito
+# Week 3 — Decentralised Authentication
 
 ## Why Cognito?
 For web/mobile apps, Cognito provides
