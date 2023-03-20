@@ -1,4 +1,5 @@
 # Week 3 — Decentralised Authentication
+This week we integrated Cognito into our backend application with a custom login page
 
 ## Why Cognito?
 For web/mobile apps, Cognito provides
@@ -16,3 +17,7 @@ Used for user login/sign-up
 
 ## Identity Pool
 Used to provide temporary AWS credentials to a user
+
+
+
+
