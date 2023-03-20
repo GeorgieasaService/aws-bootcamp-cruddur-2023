@@ -1,5 +1,5 @@
 # Week 3 — Decentralised Authentication
-This week we integrated Cognito into our backend application with a custom login page
+This week we integrated Amazon Cognito into our backend application with a custom login page
 
 ## Why Cognito?
 For web/mobile apps, Cognito provides
