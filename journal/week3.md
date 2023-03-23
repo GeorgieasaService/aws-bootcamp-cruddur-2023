@@ -18,10 +18,12 @@ Used to provide temporary AWS credentials to a user
 - OpenID Connect: Using existing credentials (Instagram, LinkedIn etc.) to authenticate. **NOTE** it doesn't perform authorisation
 - OAUTH: Usually used alongside openID Connect to authenticate credentials
 
-# Configuring a User Pool
+# Instructions
+
+## Configuring a User Pool
 *****************************************
 
-# Configurating Amplify
+## Configurating Amplify
 
  Using the terminal go to the directory by typing the following command:
 ``` 
