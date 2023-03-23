@@ -32,7 +32,7 @@ Modern Observability extends what was previously accepted meaning it goes beyond
 
 Rather, we want our software to tell us a story, This is distributed tracing.
 
-Reference from [Google Architech](https://pages.github.com/)
+v1-Observability-vs-Monitoring_7-1-e1655334127406.png![image](https://user-images.githubusercontent.com/67550608/227327540-53c99cc6-5026-4b0f-bd1a-0ff1890c9ef9.png)
 
 
 Pillars of Observability
@@ -40,7 +40,7 @@ Pillars of Observability
 - Traces
 - Logs
 
-A span is part of a Trace. It describes a specific span of time and represents a single unit of work that was done as part of serving a request.
+**NOTE** A span is part of a Trace. It describes a specific span of time and represents a single unit of work that was done as part of serving a request.
 
 Obeservability services in AWS
 - AWS Cloudwatch logs
@@ -61,6 +61,8 @@ Obeservability services in AWS
 - Open Source Dashboard
 - SIEM (Security Icident and Event Management)
 - Event Driven Architecture with AWS Services
+
+# Instructions
 
 ## Install Honeycomb
 
