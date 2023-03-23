@@ -13,6 +13,9 @@ Used for user login/sign-up
 ## Identity Pool
 Used to provide temporary AWS credentials to a user
 
+![image](https://user-images.githubusercontent.com/67550608/227333457-aef535fb-388f-4ddd-9b97-f8cfdc4bd573.png)
+
+
 ## Authentication terms to remember
 - SAML: Single-point or single-means of authentication to an application
 - OpenID Connect: Using existing credentials (Instagram, LinkedIn etc.) to authenticate. **NOTE** it doesn't perform authorisation
