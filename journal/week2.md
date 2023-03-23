@@ -32,7 +32,7 @@ Modern Observability extends what was previously accepted meaning it goes beyond
 
 Rather, we want our software to tell us a story, This is distributed tracing.
 
-[image](https://user-images.githubusercontent.com/67550608/227327540-53c99cc6-5026-4b0f-bd1a-0ff1890c9ef9.png)
+![image](https://user-images.githubusercontent.com/67550608/227327540-53c99cc6-5026-4b0f-bd1a-0ff1890c9ef9.png)
 
 
 Pillars of Observability
