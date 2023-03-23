@@ -23,7 +23,7 @@ Used to provide temporary AWS credentials to a user
 ## Configuring a User Pool
 *****************************************
 
-## Configurating Amplify
+## Configuring Amplify
 
  Using the terminal go to the directory by typing the following command:
 ``` 
