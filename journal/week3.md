@@ -409,10 +409,11 @@ const onsubmit_confirm_code = async (event) => {
 
 ```
 
+![image](https://user-images.githubusercontent.com/67550608/227733560-aa9a7a04-6714-4c9f-9bab-af5b40c16b63.png)
 
-# Troubleshoot
-
-  ### Forcing a password change for a user created in Cognito
+# tips
+  
+  ### Force a password change for a user created in Cognito
 
  aws cognito-idp admin-set-user-password --username nameofusername --password Testing1234! --user-pool-id "${AWS_USER_POOLS_ID}" --permanent
 
