@@ -344,12 +344,12 @@ and replace with the cognito code
 ```
 const onsubmit = async (event) => {
   event.preventDefault();
-  setCognitoErrors('')
+  setErrors('')
   try {
     await Auth.confirmSignUp(email, code);
     window.location.href = "/"
   } catch (error) {
-    setCognitoErrors(error.message)
+    setErrors(error.message)
   }
   return false
 }
@@ -408,7 +408,7 @@ const onsubmit_confirm_code = async (event) => {
 }
 
 ```
-
+## Your Homepage should look similar to this
 ![image](https://user-images.githubusercontent.com/67550608/227733560-aa9a7a04-6714-4c9f-9bab-af5b40c16b63.png)
 
 # tips
