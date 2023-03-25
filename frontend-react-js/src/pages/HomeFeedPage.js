@@ -64,10 +64,10 @@ const checkAuth = async () => {
     checkAuth();
   }, [])
 
-  React.useEffect(()=>{
-    // prevents double call
-    if (dataFetchedRef.current) return;
-    dataFetchedRef.current = true;
+    React.useEffect(()=>{
+      // prevents double call
+      if (dataFetchedRef.current) return;
+      dataFetchedRef.current = true;
 
     loadData();
     checkAuth();
