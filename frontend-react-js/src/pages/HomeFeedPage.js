@@ -38,6 +38,7 @@ export default function HomeFeedPage() {
   };
 
 // check if we are authenticated
+// check if we are authenticated
 const checkAuth = async () => {
   Auth.currentAuthenticatedUser({
     // Optional, By default is false. 
@@ -57,8 +58,14 @@ const checkAuth = async () => {
   .catch((err) => console.log(err));
 };
 
+  // check when the page loads if we are authenicated
   React.useEffect(()=>{
-    //prevents double call
+    loadData();
+    checkAuth();
+  }, [])
+
+  React.useEffect(()=>{
+    // prevents double call
     if (dataFetchedRef.current) return;
     dataFetchedRef.current = true;
 
