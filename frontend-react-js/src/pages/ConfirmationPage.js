@@ -22,7 +22,6 @@ export default function ConfirmationPage() {
   }
 
   const resend_code = async (event) => {
- 
     setErrors('')
     try {
       await Auth.resendSignUp(email);
@@ -43,12 +42,12 @@ export default function ConfirmationPage() {
 
   const onsubmit = async (event) => {
     event.preventDefault();
-    setCognitoErrors('')
+    setErrors('')
     try {
       await Auth.confirmSignUp(email, code);
       window.location.href = "/"
     } catch (error) {
-      setCognitoErrors(error.message)
+      setErrors(error.message)
     }
     return false
   }
