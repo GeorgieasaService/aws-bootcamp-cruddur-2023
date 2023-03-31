@@ -408,6 +408,25 @@ const onsubmit_confirm_code = async (event) => {
 }
 
 ```
+
+## JWT Server Side Verification
+
+In `HomeFeedPage.js` add the following header to pass along the access token
+```
+headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`
+        },
+
+```
+
+In `app.py` add the following Lines of code
+```
+  print('AUTH HEADER-----')
+  request.headers.get('Authorization')
+```
+
+
+
 ## Your Homepage should look similar to this
 ![image](https://user-images.githubusercontent.com/67550608/227733560-aa9a7a04-6714-4c9f-9bab-af5b40c16b63.png)
 
