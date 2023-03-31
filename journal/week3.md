@@ -419,6 +419,12 @@ headers: {
 
 ```
 
+In `app.py` add the following Lines of code
+```
+  print('AUTH HEADER-----')
+  request.headers.get('Authorization')
+```
+
 
 
 ## Your Homepage should look similar to this
