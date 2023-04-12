@@ -167,8 +167,6 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 @xray_recorder.capture('activities_home')
 def data_home():
-  print('AUTH HEADER-----')
-  request.headers.get('Authorization')
   data = HomeActivities.run()
   '''
   data = HomeActivities.run(Logger=LOGGER)
