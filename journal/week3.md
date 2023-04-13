@@ -13,15 +13,20 @@ Used for user login/sign-up
 ## Identity Pool
 Used to provide temporary AWS credentials to a user
 
+![image](https://user-images.githubusercontent.com/67550608/227333457-aef535fb-388f-4ddd-9b97-f8cfdc4bd573.png)
+
+
 ## Authentication terms to remember
 - SAML: Single-point or single-means of authentication to an application
 - OpenID Connect: Using existing credentials (Instagram, LinkedIn etc.) to authenticate. **NOTE** it doesn't perform authorisation
 - OAUTH: Usually used alongside openID Connect to authenticate credentials
 
-# Configuring a User Pool
+# Instructions
+
+## Configuring a User Pool
 *****************************************
 
-# Configurating Amplify
+## Configuring Amplify
 
  Using the terminal go to the directory by typing the following command:
 ``` 
@@ -339,12 +344,12 @@ and replace with the cognito code
 ```
 const onsubmit = async (event) => {
   event.preventDefault();
-  setCognitoErrors('')
+  setErrors('')
   try {
     await Auth.confirmSignUp(email, code);
     window.location.href = "/"
   } catch (error) {
-    setCognitoErrors(error.message)
+    setErrors(error.message)
   }
   return false
 }
@@ -404,10 +409,33 @@ const onsubmit_confirm_code = async (event) => {
 
 ```
 
+## JWT Server Side Verification
 
-# Troubleshoot
+In `HomeFeedPage.js` add the following header to pass along the access token
+```
+headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`
+        },
 
-  ### Forcing a password change for a user created in Cognito
+```
+
+In `app.py` add the following Lines of code
+```
+  app, 
+  resources={r"/api/*": {"origins": origins}},
+  headers=["Content-Type, Authorization"],
+  expose_headers="Authorization",
+  methods="OPTIONS,GET,HEAD,POST"
+```
+
+
+
+## Your Homepage should look similar to this
+![image](https://user-images.githubusercontent.com/67550608/227733560-aa9a7a04-6714-4c9f-9bab-af5b40c16b63.png)
+
+# tips
+  
+  ### Force a password change for a user created in Cognito
 
  aws cognito-idp admin-set-user-password --username nameofusername --password Testing1234! --user-pool-id "${AWS_USER_POOLS_ID}" --permanent
 
