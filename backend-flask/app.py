@@ -112,6 +112,7 @@ def init_rollbar():
 frontend = os.getenv('FRONTEND_URL')
 backend = os.getenv('BACKEND_URL')
 origins = [frontend, backend]
+# CORS
 cors = CORS(
   app, 
   resources={r"/api/*": {"origins": origins}},
@@ -177,9 +178,9 @@ def data_create_message():
 def data_home():
   access_token = CognitoJwtToken.extract_access_token(request.headers)
   try:
-      self.token_service.verify(access_token)
-      self.claims = self.token_service.claims
-      g.cognito_claims = self.claims
+      claims = cognito_jwt_token.token_service.verify(access_token)
+#      self.claims = self.token_service.claims
+#      g.cognito_claims = self.claims
   except TokenVerifyError as e:
       _ = request.data
       abort(make_response(jsonify(message=str(e)), 401))         
