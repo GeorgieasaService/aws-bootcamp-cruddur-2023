@@ -175,10 +175,20 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 @xray_recorder.capture('activities_home')
 def data_home():
+  access_token = CognitoJwtToken.extract_access_token(request.headers)
+  try:
+      self.token_service.verify(access_token)
+      self.claims = self.token_service.claims
+      g.cognito_claims = self.claims
+  except TokenVerifyError as e:
+      _ = request.data
+      abort(make_response(jsonify(message=str(e)), 401))         
+  
   data = HomeActivities.run()
-  '''
-  data = HomeActivities.run(Logger=LOGGER)
-  '''
+#  data = HomeActivities.run(Logger=LOGGER)
+  claims = aws_auth.claims
+  app.logger.debug('claims')
+  app.logger.debug(claims)
   return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
