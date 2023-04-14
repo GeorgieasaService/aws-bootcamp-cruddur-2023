@@ -4,7 +4,7 @@ import logging
 tracer = trace.get_tracer("home.activities")
 
 class HomeActivities:
-  def run():
+  def run(cognito_user_id=None):
    #def run(Logger):
    #Logger.info("HomeActivities")
     with tracer.start_as_current_span("home-activities-mock-data"):
@@ -50,5 +50,16 @@ class HomeActivities:
       'replies': []
     }
     ]
-    span.set_attribute("app.result_length", len(results))
-    return results
+    if cognito_user_id != None:
+      extra_crud = {  
+        'uuid': '66e12864-8c26-4c3a-9658-95a10f8fea67',
+        'handle':  'JuniorDEV01',
+        'message': 'OH NO! I just broke prod!',
+        'created_at': (now - timedelta(days=7)).isoformat(),
+        'expires_at': (now + timedelta(days=9)).isoformat(),
+        'likes': 46,
+        'replies': []
+      }      
+      results.insert(0,extra_crud)
+      span.set_attribute("app.result_length", len(results))
+      return results
