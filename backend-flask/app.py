@@ -15,7 +15,7 @@ from services.messages import *
 from services.create_message import *
 from services.show_activity import *
 # Cognito
-from lib.cognito_jwt_token import CognitoJwtToken
+from lib.cognito_jwt_token import CognitoJwtToken, extract_access_token, TokenVerifyError
 
 # Xray
 from aws_xray_sdk.core import xray_recorder
@@ -176,20 +176,21 @@ def data_create_message():
 @app.route("/api/activities/home", methods=['GET'])
 @xray_recorder.capture('activities_home')
 def data_home():
-  access_token = CognitoJwtToken.extract_access_token(request.headers)
+  access_token = extract_access_token(request.headers)
   try:
-      claims = cognito_jwt_token.token_service.verify(access_token)
-#      self.claims = self.token_service.claims
-#      g.cognito_claims = self.claims
+      claims = cognito_jwt_token.verify(access_token)
+# authenticated request
+      app.logger.debug("authenticated")
+      app.logger.debug('claims')
+      app.logger.debug(claims)
   except TokenVerifyError as e:
-      _ = request.data
-      abort(make_response(jsonify(message=str(e)), 401))         
+#      _ = request.data
+# Unauthenticated request
+      app.logger.debug("unauthenticated")
   
   data = HomeActivities.run()
 #  data = HomeActivities.run(Logger=LOGGER)
-  claims = aws_auth.claims
-  app.logger.debug('claims')
-  app.logger.debug(claims)
+#  claims = aws_auth.claims
   return data, 200
 
 @app.route("/api/activities/notifications", methods=['GET'])
