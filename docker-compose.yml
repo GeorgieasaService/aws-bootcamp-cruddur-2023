@@ -14,7 +14,7 @@ services:
       AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
       ROLLBAR_ACCESS_TOKEN: "${ROLLBAR_ACCESS_TOKEN}"
       #env vars for jwttoken
-      AWS_COGNITO_USER_POOL_CLIENT_ID: "${AWS_USER_POOL_ID}"
+      AWS_COGNITO_USER_POOL_ID: "${AWS_USER_POOL_ID}"
       AWS_COGNITO_USER_POOL_CLIENT_ID: "${AWS_APP_CLIENT_ID}"
     build: ./backend-flask
     ports:
