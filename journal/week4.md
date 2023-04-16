@@ -17,5 +17,6 @@ Here are some security consideration:
  - Enabling deletion protection is a good idea
  - The dbs should always be encrypted.
  - The dbs shouldn't be publically accessible
- - configure the Security Group of the dbs instance to ONLY allow access from the IP of the admin 
+ - You can configure an outbound rule of the Security Group of the dbs instance to 0.0.0.0 but configure the inbound rules to ONLY allow access from the IP of the admin
+ - Ensure that CloudTrail is enabled and configured to monitor alerts on malicious RDS behaviour by an identity in AWS
 
