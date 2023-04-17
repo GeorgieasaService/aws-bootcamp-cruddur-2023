@@ -78,14 +78,21 @@ Use this command to create a dbs within the psql client
 ```
 create database cruddur;
 ```
-from the backend-flask dir, create a new dir called db and inside a file called schema.sql
+From the backend-flask dir, create a new dir called db and inside a file called schema.sql
 Once created, add the following sql command into the schema.sql file
 ```
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 ```
 
+Exit psql using this command
+```
+\q
+```
 
-
+Make sure you're in your backend-flask folder and enter the following command
+```
+psql cruddur < db/schema.sql -h localhost -U postgres
+```
 
 
 
