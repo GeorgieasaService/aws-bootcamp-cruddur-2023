@@ -16,7 +16,19 @@ Here are some security consideration:
  - Create your database in the region the data originates from. (data sovereignty concerns)
  - Enabling deletion protection is a good idea
  - The dbs should always be encrypted.
- - The dbs shouldn't be publically accessible
+ - The dbs shouldn't be publicly accessible
  - You can configure an outbound rule of the Security Group of the dbs instance to 0.0.0.0 but configure the inbound rules to ONLY allow access from the IP of the admin
  - Ensure that CloudTrail is enabled and configured to monitor alerts on malicious RDS behaviour by an identity in AWS
+
+ ## Instructions
+ You could use the console but we'll use the aws-cli
+
+### Creating the RDS instance
+ from your terminal use the following code to create your RDS instance
+ 
+```
+ aws rds create-db-instance \
+ --db-instance-identifier crudder-db \
+ 
+```
 
