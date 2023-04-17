@@ -48,8 +48,31 @@ aws rds create-db-instance \
   --no-deletion-protection
 ```
 
-from your terminal use the following line of code to connect to psql via the psql client cli tool
+from your terminal use the following command to connect to psql via the psql client cli tool
 ```
 psql -U postgres --host localhost
+```
+### Some psql commands to remember
+\x on -- expanded display when looking at data
+\q -- Quit PSQL
+\l -- List all databases
+\c database_name -- Connect to a specific database
+\dt -- List all tables in the current database
+\d table_name -- Describe a specific table
+\du -- List all users and their roles
+\dn -- List all schemas in the current database
+CREATE DATABASE database_name; -- Create a new database
+DROP DATABASE database_name; -- Delete a database
+CREATE TABLE table_name (column1 datatype1, column2 datatype2, ...); -- Create a new table
+DROP TABLE table_name; -- Delete a table
+SELECT column1, column2, ... FROM table_name WHERE condition; -- Select data from a table
+INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...); -- Insert data into a table
+UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition; -- Update data in a table
+DELETE FROM table_name WHERE condition; -- Delete data from a table
+
+### Creating a local database
+Use this command to create a dbs within the psql client
+```
+create database cruddur;
 ```
 
