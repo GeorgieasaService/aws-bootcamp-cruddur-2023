@@ -52,6 +52,7 @@ from your terminal use the following command to connect to psql via the psql cli
 ```
 psql -U postgres --host localhost
 ```
+
 ### Some psql commands to remember
 ```
 \x on -- expanded display when looking at data
@@ -77,4 +78,17 @@ Use this command to create a dbs within the psql client
 ```
 create database cruddur;
 ```
+from the backend-flask dir, create a new dir called db and inside a file called schema.sql
+Once created, add the following sql command into the schema.sql file
+```
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+```
+
+
+
+
+
+
+
+
 
