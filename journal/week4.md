@@ -53,6 +53,7 @@ from your terminal use the following command to connect to psql via the psql cli
 psql -U postgres --host localhost
 ```
 ### Some psql commands to remember
+```
 \x on -- expanded display when looking at data
 \q -- Quit PSQL
 \l -- List all databases
@@ -69,6 +70,7 @@ SELECT column1, column2, ... FROM table_name WHERE condition; -- Select data fro
 INSERT INTO table_name (column1, column2, ...) VALUES (value1, value2, ...); -- Insert data into a table
 UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition; -- Update data in a table
 DELETE FROM table_name WHERE condition; -- Delete data from a table
+```
 
 ### Creating a local database
 Use this command to create a dbs within the psql client
