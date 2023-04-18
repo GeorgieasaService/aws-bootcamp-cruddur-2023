@@ -114,7 +114,7 @@ gp env PROD_CONNECTION_URL="postgresql://[user[:password]@][endpoint][:port][/db
 
 From the backend-flask dir, create a new dir called bin and inside 3 files called "db-create", "db-drop" and "db-schema-load". 
 
-NOTE: Because they're in the bin dir they don't need file extensions to execute.
+NOTE: Because they're in the bin/ dir they don't need file extensions to execute.
 
 Once created, add the following shebang on the first line of each of the 3 files
 ```
@@ -125,9 +125,7 @@ NOTE: we used the "whereis bash" command to find bash for the distro we're using
 
 To change the executable of the file created before, insert the following lines of code
 ```
-chmod u+x bin/db-create
-chmod u+x bin/db-drop
-chmod u+x bin/db-schema-load
+chmod u+x bin/db-create db-drop db-schema-load
 ```
 
 Add the following lines of code into the db-drop file
@@ -193,12 +191,54 @@ CREATE TABLE public.activities (
 );
 ```
 
-create a script inside the bin dir called "db-connect" and add the insert following lines of code into it
+create a file inside the bin/ dir called "db-connect" and add the insert following lines of code into it
 ```
 #! /usr/bin/bash
 psql $CONNECTION_URL
 ```
 
+Add permissions to this file
+```
+chmod u+x db-connect
+```
 
+create another file inside the bin/ dir called "db-seed" and add the insert following lines of code into it
+```
+#! /usr/bin/bash
+#echo "== db-seed-load"
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-seed-load"
+printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 
+seed_path="$(realpath .)/db/seed.sql"
+
+echo $seed_path
+
+if [ "$1" = "prod" ]; then
+ echo "Running in production mode"
+ URL=$PROD_CONNECTION_URL
+else
+ URL=$CONNECTION_URL
+fi
+
+psql $URL cruddur < $seed_path
+```
+
+In the db/ dir create a new file called seed.sql and insert the following lines of code into it
+```
+-- this file was manually created
+INSERT INTO public.users (display_name, handle, cognito_user_id)
+VALUES
+  ('Andrew Brown', 'andrewbrown' ,'MOCK'),
+  ('Andrew Bayko', 'bayko' ,'MOCK');
+
+INSERT INTO public.activities (user_uuid, message, expires_at)
+VALUES
+  (
+    (SELECT uuid from public.users WHERE users.handle = 'andrewbrown' LIMIT 1),
+    'This was imported as seed data!',
+    current_timestamp + interval '10 day'
+  )
+```
 
