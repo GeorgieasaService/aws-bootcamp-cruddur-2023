@@ -134,6 +134,7 @@ Add the following lines of code into the db-drop file
 ```
 echo "db-drop"
 NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<<"$CONNECTION_URL")
+psql $NO_DB_CONNECTION_URL -c "DROP DATABASE IF EXISTS cruddur;"
 ```
 
 In db-create add the following lines of code
