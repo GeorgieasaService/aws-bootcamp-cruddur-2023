@@ -89,12 +89,16 @@ Exit psql using this command
 \q
 ```
 
-Make sure you're in your backend-flask folder and enter the following command
+While in your backend-flask dir and enter the following command into your terminal and afterwards you'll be prompted to your password
 ```
 psql cruddur < db/schema.sql -h localhost -U postgres
 ```
 
-
+Create the following env vars
+```
+export CONNECTION_URL="postgresql://postgres:password@localhost:5432/cruddur"
+gp env CONNECTION_URL="postgresql://postgres:password@localhost:5432/cruddur"
+```
 
 
 
