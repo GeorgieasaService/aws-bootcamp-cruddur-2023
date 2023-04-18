@@ -20,7 +20,7 @@ Here are some security consideration:
  - You can configure an outbound rule of the Security Group of the dbs instance to 0.0.0.0 but configure the inbound rules to ONLY allow access from the IP of the admin
  - Ensure that CloudTrail is enabled and configured to monitor alerts on malicious RDS behaviour by an identity in AWS
 
- ## Instructions
+ # Instructions
  You could use the console but we'll use the aws-cli
 
 ### Creating the RDS instance
@@ -94,12 +94,23 @@ While in your backend-flask dir and enter the following command into your termin
 psql cruddur < db/schema.sql -h localhost -U postgres
 ```
 
-Create the following env vars
+Postgres Connection URL's are in the following syntax
+```
+postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]
+```
+
+Now create the following CONNECTION_URL env var for the local dbs
 ```
 export CONNECTION_URL="postgresql://postgres:password@localhost:5432/cruddur"
 gp env CONNECTION_URL="postgresql://postgres:password@localhost:5432/cruddur"
 ```
 
+Do the same for the RDS dbs instance
+```
+export PROD_CONNECTION_URL="postgresql://[user[:password]@][endpoint][:port][/dbname]"
+gp env PROD_CONNECTION_URL="postgresql://[user[:password]@][endpoint][:port][/dbname]"
+
+```
 
 
 
