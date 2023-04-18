@@ -112,5 +112,42 @@ gp env PROD_CONNECTION_URL="postgresql://[user[:password]@][endpoint][:port][/db
 
 ```
 
+From the backend-flask dir, create a new dir called bin and inside 3 files called "db-create", "db-drop" and "db-schema-load". 
+
+NOTE: Because they're in the bin dir they don't need file extensions to execute.
+
+Once created, add the following shebang on the first line of each of the 3 files
+```
+#! /usr/bin/bash
+```
+NOTE: we used the "whereis bash" command to find bash for the distro we're using
+
+
+To change the executable of the file created before, insert the following lines of code
+```
+chmod u+x bin/db-create
+chmod u+x bin/db-drop
+chmod u+x bin/db-schema-load
+```
+
+Add the following lines of code into the db-drop file
+```
+echo "db-drop"
+NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<<"$CONNECTION_URL")
+```
+
+In db-create add the following lines of code
+```
+echo "db-create"
+NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<<"$CONNECTION_URL")
+psql $NO_DB_CONNECTION_URL -c "create database cruddur;"
+
+```
+
+
+
+
+
+
 
 
