@@ -9,12 +9,13 @@ printf "${CYAN}== ${LABEL}${NO_COLOR}\n"
 schema_path="$(realpath .)/db/schema.sql"
 
 echo $schema_path
-
+# This if statement checks the connection URL to see what db we're using
 if [ "$1" = "prod" ]; then
   echo "Running in production mode"
   URL=$PROD_CONNECTION_URL
 else
   URL=$CONNECTION_URL
+  echo "Running in local mode"
 fi
 
 psql $URL cruddur < $schema_path
