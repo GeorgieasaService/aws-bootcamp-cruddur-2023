@@ -193,7 +193,11 @@ CREATE TABLE public.activities (
 );
 ```
 
-
+create a script inside the bin dir called "db-connect" and add the insert following lines of code into it
+```
+#! /usr/bin/bash
+psql $CONNECTION_URL
+```
 
 
 
