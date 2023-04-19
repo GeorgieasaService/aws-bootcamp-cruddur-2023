@@ -1,5 +1,5 @@
 #! /usr/bin/bash
-
+# This script will speed up our workflow by running all of the setup scripts in sequence
 CYAN='\033[1;36m'
 NO_COLOR='\033[0m'
 LABEL="db-setup"
