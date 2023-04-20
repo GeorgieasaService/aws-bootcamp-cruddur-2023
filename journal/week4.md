@@ -242,3 +242,61 @@ VALUES
   )
 ```
 
+# connecting to RDS
+
+If you've stopped and started or re-created your gitpod/codespace enviroment, make sure to rerun the db-create, db-schema-load and db-seed scripts in that exact order before running the db-connect script. Those docker containers need to be running before making the connection
+
+To see the connections to the db create a file called db-sessions in the backend-flask/bin dir 
+```
+NO_DB_CONNECTION_URL=$(sed 's/\/cruddur//g' <<<"$CONNECTION_URL")
+psql $NO_DB_CONNECTION_URL -c "select pid as process_id, \
+       usename as user,  \
+       datname as db, \
+       client_addr, \
+       application_name as app,\
+       state \
+from pg_stat_activity;"
+```
+
+Change the permission of the db-sessions file
+```
+ chmod u+x ./db-sessions
+```
+
+Create a file called db-setup in the backend-flask/bin dir
+This will be used to create and setup the local database
+```
+#! /usr/bin/bash
+
+-e # stop if it fails at any point
+CYAN='\033[1;36m'
+NO_COLOR='\033[0m'
+LABEL="db-setup"
+printf "${CYAN}==== ${LABEL}${NO_COLOR}\n"
+
+bin_path="$(realpath .)/bin"
+
+source "$bin_path/db-drop"
+source "$bin_path/db-create"
+source "$bin_path/db-schema-load"
+source "$bin_path/db-seed"
+
+```
+
+Change the permission of the db-setup file
+```
+ chmod u+x ./db-setup
+```
+
+## Installing the driver for psql
+
+Add the following libraries into the requirements.txt in the backend-flask/ dir
+```
+psycopg[binary]
+psycopg[pool]
+```
+
+and run this command to install the dependencies
+```
+pip install -r requirements.txt
+```
