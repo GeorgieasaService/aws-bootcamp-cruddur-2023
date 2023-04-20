@@ -39,5 +39,5 @@ class HomeActivities:
           # the first field being the data
           json = cur.fetchall()
       return json[0]
-      return results,
+      return results
       
