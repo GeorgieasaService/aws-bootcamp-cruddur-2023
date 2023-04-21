@@ -16,15 +16,15 @@ class HomeActivities:
       span.set_attribute("app.now", now.isoformat())
       '''
       
-    sql = """
+    sql = query_wrap_array("""
     SELECT * FROM activities
-    """
+    """)
     with pool.connection() as conn:
       with conn.cursor() as cur:
         cur.execute(sql)
         # this will return a tuple
         # the first field being the data
-        json = cur.fetchall()
+        json = cur.fetchone()
     return json[0]
     return results
       
