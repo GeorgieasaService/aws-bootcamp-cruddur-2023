@@ -7,6 +7,7 @@ services:
       #BACKEND_URL: "https://${CODESPACE_NAME}-4567.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
       
       #GITPOD
+      CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
       FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
       OTEL_SERVICE_NAME: 'backend-flask'
@@ -31,7 +32,6 @@ services:
       - ./backend-flask:/backend-flask
   frontend-react-js:
     environment:
-      CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
     # CODESPACES
       #REACT_APP_BACKEND_URL: "https://${CODESPACE_NAME}-4567.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}"
     # GITPOD
