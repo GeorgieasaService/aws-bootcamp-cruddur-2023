@@ -19,23 +19,30 @@ class Db:
       self.print_sql_err(err)
       #conn.rollback()
       
-  def query_array():
+  def query_array_json():
   # when we want to return an array of json objects
-    print("SQL STATEMENT--------")
-    print(sql)
-    print("")
-    
-    sql = query_wrap_array
+    print("SQL STATEMENT-[array]-------")
+    print(sql + "\n")
+    wrapped_sql = self.query_wrap_array_json(sql)
     with self.pool.connection() as conn:
       with conn.cursor() as cur:
-        cur.execute(sql)
+        cur.execute(wrapped_sql)
         # this will return a tuple
         # the first field being the data
         json = cur.fetchone()
+        return json[0]
         
-  
-  def query_object(sql):
-  # when we want to return a json object
+  def query_object_json(sql):
+  # when we want to return a json 
+    print("SQL STATEMENT-[object]-------")
+    print(sql + "\n")
+    wrapped_sql = self.query_wrap_object_json(sql)
+    with self.pool.connection() as conn:
+      with conn.cursor() as cur:
+        cur.execute(wrapped_sql)
+        # this will return a tuple
+        # the first field being the data
+        json = cur.fetchone()
 
   def query_wrap_object(template):
     sql = f"""
@@ -45,24 +52,24 @@ class Db:
     """
     return sql
 
-  # define a function that handles and parses psycopg2 exceptions
-    def print_sql_err(err):
-      # get details about the exception
-      err_type, err_obj, traceback = sys.exc_info()
+# define a function that handles and parses psycopg2 exceptions
+  def print_sql_err(err):
+    # get details about the exception
+    err_type, err_obj, traceback = sys.exc_info()
 
-      # get the line number when exception occured
-      line_num = traceback.tb_lineno
+    # get the line number when exception occured
+    line_num = traceback.tb_lineno
 
-      # print the connect() error
-      print ("\npsycopg2 ERROR:", err, "on line number:", line_num)
-      print ("psycopg2 traceback:", traceback, "-- type:", err_type)
+    # print the connect() error
+    print ("\npsycopg2 ERROR:", err, "on line number:", line_num)
+    print ("psycopg2 traceback:", traceback, "-- type:", err_type)
 
-      # psycopg2 extensions.Diagnostics object attribute
-      print ("\nextensions.Diagnostics:", err.diag)
+    # psycopg2 extensions.Diagnostics object attribute
+    print ("\nextensions.Diagnostics:", err.diag)
 
-      # print the pgcode and pgerror exceptions
-      print ("pgerror:", err.pgerror)
-      print ("pgcode:", err.pgcode, "\n")
+    # print the pgcode and pgerror exceptions
+    print ("pgerror:", err.pgerror)
+    print ("pgcode:", err.pgcode, "\n")
       
 
   def query_wrap_array(template):
