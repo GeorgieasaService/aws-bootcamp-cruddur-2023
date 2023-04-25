@@ -5,11 +5,11 @@ class Db:
   def __init__(self):
     self.init_pool()
     
-  def init_pool():
+  def init_pool(self):
     connection_url = os.getenv("CONNECTION_URL")
     self.pool = ConnectionPool(connection_url)
 # when we want to commit data such as an insert
-  def query_commit():
+  def query_commit(self):
     try:
       conn = pool.connection()
       cur = conn.cursor()
@@ -19,7 +19,7 @@ class Db:
       self.print_sql_err(err)
       #conn.rollback()
       
-  def query_array_json():
+  def query_array_json(self,sql):
   # when we want to return an array of json objects
     print("SQL STATEMENT-[array]-------")
     print(sql + "\n")
@@ -32,7 +32,7 @@ class Db:
         json = cur.fetchone()
         return json[0]
         
-  def query_object_json(sql):
+  def query_object_json(self,sql):
   # when we want to return a json 
     print("SQL STATEMENT-[object]-------")
     print(sql + "\n")
@@ -44,16 +44,24 @@ class Db:
         # the first field being the data
         json = cur.fetchone()
 
-  def query_wrap_object(template):
+  def query_wrap_object(self,template):
     sql = f"""
     (SELECT COALESCE(row_to_json(object_row),'{{}}'::json) FROM (
     {template}
     ) object_row);
     """
     return sql
+  
+  def query_wrap_array(self,template):
+    sql = f"""
+    (SELECT COALESCE(array_to_json(array_agg(row_to_json(array_row))),'[]'::json) FROM (
+    {template}
+    ) array_row);
+    """ 
+    return sql 
 
 # define a function that handles and parses psycopg2 exceptions
-  def print_sql_err(err):
+  def print_sql_err(self,err):
     # get details about the exception
     err_type, err_obj, traceback = sys.exc_info()
 
@@ -70,14 +78,5 @@ class Db:
     # print the pgcode and pgerror exceptions
     print ("pgerror:", err.pgerror)
     print ("pgcode:", err.pgcode, "\n")
-      
-
-  def query_wrap_array(template):
-    sql = f"""
-    (SELECT COALESCE(array_to_json(array_agg(row_to_json(array_row))),'[]'::json) FROM (
-    {template}
-    ) array_row);
-    """ 
-    return sql 
-      
+          
 db = Db()
