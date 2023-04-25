@@ -1,23 +1,39 @@
 from psycopg_pool import ConnectionPool
 import os   
+import re  
+import sys 
 
 class Db:
   def __init__(self):
     self.init_pool()
     
+  def template(name):
+    with open(''.sql', 'r') as f:
+      sql_query = f.read()
+  
   def init_pool(self):
     connection_url = os.getenv("CONNECTION_URL")
     self.pool = ConnectionPool(connection_url)
 # when we want to commit data such as an insert
-  def query_commit(self):
+# be to check that RETURNING is in all uppercase
+  def query_commit(self,sql,*kwargs):
+    print("SQL STATEMENT-[commit with returning]-------")
+    print(sql + "\n")
+    
+    pattern = r"\bRETURNING\b"
+    is_returning_id = re.search(pattern, sql)
+
     try:
-      conn = pool.connection()
+      conn = self.pool.connection()
       cur = conn.cursor()
-      cur.execute(sql)
+      cur.execute(sql,params)
+      if is_returning_id:
+        returning_id = cur.fetchone()[0]
       conn.commit()
+      if is_returning_id:
+        return returning_id
     except Exception as err:
       self.print_sql_err(err)
-      #conn.rollback()
       
   def query_array_json(self,sql):
   # when we want to return an array of json objects
@@ -73,7 +89,7 @@ class Db:
     print ("psycopg2 traceback:", traceback, "-- type:", err_type)
 
     # psycopg2 extensions.Diagnostics object attribute
-    print ("\nextensions.Diagnostics:", err.diag)
+    #print ("\nextensions.Diagnostics:", err.diag)
 
     # print the pgcode and pgerror exceptions
     print ("pgerror:", err.pgerror)
