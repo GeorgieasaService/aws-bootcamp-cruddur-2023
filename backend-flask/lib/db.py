@@ -23,7 +23,7 @@ class Db:
   # when we want to return an array of json objects
     print("SQL STATEMENT-[array]-------")
     print(sql + "\n")
-    wrapped_sql = self.query_wrap_array_json(sql)
+    wrapped_sql = self.query_wrap_array(sql)
     with self.pool.connection() as conn:
       with conn.cursor() as cur:
         cur.execute(wrapped_sql)
@@ -36,7 +36,7 @@ class Db:
   # when we want to return a json 
     print("SQL STATEMENT-[object]-------")
     print(sql + "\n")
-    wrapped_sql = self.query_wrap_object_json(sql)
+    wrapped_sql = self.query_wrap_object(sql)
     with self.pool.connection() as conn:
       with conn.cursor() as cur:
         cur.execute(wrapped_sql)
