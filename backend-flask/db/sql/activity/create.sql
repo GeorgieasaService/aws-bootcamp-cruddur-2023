@@ -1,4 +1,4 @@
-INSERT INTO (
+INSERT INTO public.activities (
       user_uuid,
       message,
       expires_at
@@ -10,5 +10,5 @@ INSERT INTO (
       LIMIT 1
       ),
       %(message)s,
-      %(expires_at)s,
-      %s) RETURNING uuid;
+      %(expires_at)s
+      ) RETURNING uuid;
