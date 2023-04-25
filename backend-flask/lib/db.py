@@ -23,14 +23,15 @@ class Db:
 
     
   def print_sql(self,title,sql):
-    print(f'{cyan} SQL STATEMENT-[{title}]------{no_color}')
     cyan = '\033[96m'
     no_color = '\033[0m'
+    print(f'{cyan} SQL STATEMENT-[{title}]------{no_color}')
+    print(sql + "\n")
+
 
     
   def query_commit(self,sql,*kwargs):
     print('commit with returning',sql)
-    print(sql + "\n")
         
     pattern = r"\bRETURNING\b"
     is_returning_id = re.search(pattern, sql)
