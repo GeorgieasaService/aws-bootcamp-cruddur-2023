@@ -3,7 +3,7 @@ from lib.db import db
 #from lib.db import query_commit, print_sql_err
 
 class CreateActivity:
-  def run(message, user_handle, ttl):
+  def run(user_handle, message, ttl):
     model = {
       'errors': None,
       'data': None
@@ -43,7 +43,7 @@ class CreateActivity:
       }   
     else:
       expires_at = (now + ttl_offset)
-      uuid =  CreateActivity.create_activity(user_handle,message,expires_at)
+      uuid =  CreateActivity.create_activity(user_handle, message, expires_at)
 
       object_json = CreateActivity.query_object_activity()
 
