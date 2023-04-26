@@ -80,34 +80,13 @@ cognito_jwt_token = CognitoJwtToken(
   region=os.getenv("AWS_DEFAULT_REGION")
 )
 
-'''
 # Xray middleware
 XRayMiddleware(app, xray_recorder)
-'''
 
 # Honeycomb
 # Initialize automatic instrumentation with Flask
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
-
-# Rollbar
-rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
-with app.app_context():
-  def init_rollbar():
-      """init rollbar module"""
-      rollbar.init(
-          # access token
-          rollbar_access_token,
-          # environment name
-          'production',
-          # server root directory, makes tracebacks prettier
-          root=os.path.dirname(os.path.realpath(__file__)),
-          # flask already sets up logging
-          allow_logging_basic_config=False)
-
-      # send exceptions from `app` to rollbar, using flask's signal system.
-      got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
-    
 
 frontend = os.getenv('FRONTEND_URL')
 backend = os.getenv('BACKEND_URL')
@@ -129,14 +108,35 @@ def after_request(response):
     LOGGER.error('%s %s %s %s %s %s', timestamp, request.remote_addr, request.method, request.scheme, request.full_path, response.status)
     return response
 '''
-
-# send exceptions from `app` to rollbar, using flask's signal system.
-got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
     
+@app.route('/api/health-check')
+def health_check():
+  return {'success': True}, 200
+
+# Rollbar
+rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
+with app.app_context():
+  def init_rollbar():
+      """init rollbar module"""
+      rollbar.init(
+          # access token
+          rollbar_access_token,
+          # environment name
+          'production',
+          # server root directory, makes tracebacks prettier
+          root=os.path.dirname(os.path.realpath(__file__)),
+          # flask already sets up logging
+          allow_logging_basic_config=False)
+
+      # send exceptions from `app` to rollbar, using flask's signal system.
+      got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+
+'''
 @app.route('/rollbar/test')
 def rollbar_test():
     rollbar.report_message('Hello World!', 'warning')
     return "Hello World!"
+'''
 
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
@@ -236,7 +236,6 @@ def data_show_activity(activity_uuid):
 @app.route("/api/activities/<string:activity_uuid>/reply", methods=['POST','OPTIONS'])
 @cross_origin()
 def data_activities_reply(activity_uuid):
-  user_handle  = 'andrewbrown'
   message = request.json['message']
   model = CreateReply.run(user_handle, message, activity_uuid)
   if model['errors'] is not None:
@@ -244,6 +243,11 @@ def data_activities_reply(activity_uuid):
   else:
     return model['data'], 200
   return
+
+@app.route("/api/users/@<string:handle>/short", methods=['GET'])
+def data_users_short(handle):
+  data = UsersShort.run(handle)
+  return data, 200
 
 if __name__ == "__main__":
   app.run(debug=True)
