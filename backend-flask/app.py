@@ -229,13 +229,8 @@ def data_search():
 @cross_origin()
 def data_activities():
   user_handle = request.json["user_handle"]
-<<<<<<< HEAD
   message = request.json["message"]
   ttl = request.json["ttl"]
-=======
-  message = request.json['message']
-  ttl = request.json['ttl']
->>>>>>> refs/remotes/origin/main
   model = CreateActivity.run(message, user_handle, ttl)
   if model["errors"] is not None:
     return model["errors"], 422
