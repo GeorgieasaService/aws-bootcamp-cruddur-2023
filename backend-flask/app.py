@@ -137,7 +137,15 @@ def rollbar_test():
     rollbar.report_message('Hello World!', 'warning')
     return "Hello World!"
 '''
-
+@app.route("/api/message_groups", methods=['GET'])
+def data_message_groups():
+  user_handle  = 'andrewbrown'
+  model = MessageGroups.run(user_handle=user_handle)
+  if model['errors'] is not None:
+    return model['errors'], 422
+  else:
+    return model['data'], 200
+"""
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
   access_token = extract_access_token(request.headers)
@@ -156,6 +164,7 @@ def data_message_groups():
     # unauthenticated request
     app.logger.debug(e)
     return{}, 401
+"""
 
 @app.route("/api/messages/@<string:handle>", methods=['GET'])
 def data_messages(handle):
@@ -246,7 +255,7 @@ def data_show_activity(activity_uuid):
 @app.route("/api/activities/<string:activity_uuid>/reply", methods=['POST','OPTIONS'])
 @cross_origin()
 def data_activities_reply(activity_uuid):
-  user_handle  = request.json["user_handle"]
+  user_handle = request.json["user_handle"]
   message = request.json['message']
   model = CreateReply.run(message, user_handle, activity_uuid)
   if model['errors'] is not None:
