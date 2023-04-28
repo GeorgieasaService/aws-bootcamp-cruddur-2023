@@ -43,12 +43,12 @@ class Db:
     print(sql,params)
     
   def query_commit(self,sql,params={}):
-    self.print_sql('commit with returning',sql,params) 
+    self.print_sql('commit with returning',sql) 
     pattern = r"\bRETURNING\b"
     is_returning_id = re.search(pattern, sql)
     try:
       with self.pool.connection() as conn:
-        cur = conn.cursor()
+        cur =  conn.cursor()
         cur.execute(sql,params)
         if is_returning_id:
           returning_id = cur.fetchone()[0]
@@ -73,7 +73,7 @@ class Db:
         
   def query_object_json(self,sql,params={}):
   # when we want to return a json object
-    self.print_sql('json',sql,params) 
+    self.print_sql('json',sql) 
     self.print_params(params)
     wrapped_sql = self.query_wrap_object(sql)
     
