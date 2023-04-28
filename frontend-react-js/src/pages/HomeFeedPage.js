@@ -1,6 +1,5 @@
 import './HomeFeedPage.css';
 import React from "react";
-
 import { Auth } from 'aws-amplify';
 
 import DesktopNavigation  from '../components/DesktopNavigation';
@@ -9,7 +8,7 @@ import ActivityFeed from '../components/ActivityFeed';
 import ActivityForm from '../components/ActivityForm';
 import ReplyForm from '../components/ReplyForm';
 
-// [TODO] Authenication
+// [TODO] Authentication
 import Cookies from 'js-cookie'
 
 export default function HomeFeedPage() {
@@ -41,12 +40,10 @@ export default function HomeFeedPage() {
   };
 
 // check if we are authenticated
-// check if we are authenticated
 const checkAuth = async () => {
   Auth.currentAuthenticatedUser({
     // Optional, By default is false. 
-    // If set to true, this call will send a 
-    // request to Cognito to get the latest user data
+    // If set to true, this call will send a request to Cognito to get the latest user data
     bypassCache: false 
   })
   .then((user) => {
