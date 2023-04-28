@@ -121,3 +121,4 @@ class Db:
     print ("pgcode:", err.pgcode, "\n")
           
 db = Db()
+
