@@ -2,6 +2,20 @@ from datetime import datetime, timedelta, timezone
 from lib.db import db
 
 class CreateActivity:
+  def create_activity(handle, message, expires_at):
+    sql = db.template('activities','create')
+    uuid = db.query_commit(sql,{ 
+    'handle': handle, 
+      'message': message, 
+      'expires_at': expires_at
+    })
+    
+def query_object_activity(uuid):
+  sql = db.template('activities','object')
+  return db.query_object_json(sql,{
+    'uuid': uuid
+    })
+
   def run(user_handle, message, ttl):
     model = {
       'errors': None,
@@ -37,7 +51,7 @@ class CreateActivity:
 
     if model['errors']:
       model['data'] = {
-        'handle':  user_handle,
+        'handle': user_handle,
         'message': message
       }   
     else:
@@ -48,18 +62,3 @@ class CreateActivity:
 
       model['data'] = object_json
     return model
-  
-  def create_activity(handle, message, expires_at):
-    sql = db.template('activities','create')
-    uuid = db.query_commit(sql,{ 
-    'handle': handle, 
-      'message': message, 
-      'expires_at': expires_at
-      })
-    return uuid
-  
-  def query_object_activity(uuid):
-    sql = db.template('activities','object')
-    return db.query_object_json(sql,{
-      'uuid': uuid
-      })
