@@ -7,5 +7,6 @@
  ## Non-Relationsl Database Solutions on AWS
  DynamoDB is a non-relational database solution for AWS and is used for high performace applications at any scale. 
  
- ##  
+ ##  Security Considerations
+- 
  
