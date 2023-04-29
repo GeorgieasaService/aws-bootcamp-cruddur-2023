@@ -1,14 +1,14 @@
 # Week 4 — Relational Databases
 
 ## Relational Database Solutions on AWS
- - Aurora:
- - RDS:
+ - RDS: Amazon RDS is a managed service that makes it simple to set up, operate, and scale databases in the cloud. 
+ - Aurora: Aurora extends RDS beyond the capabilities of RDS and allows for higher availability of database instances spanning more than a single region, automatic buck-ups and failover to read replicas.
  
  ![image](https://user-images.githubusercontent.com/67550608/232323190-415537c0-0e52-4323-add9-f8c3c73e55b8.png)
 
 
 ## Why RDS
-It offers different dbs engines such as Aurora(both MySQL or PostgreSQL compatible version), Mysql, PostgreSQL, Oracle
+It offers different dbs engines such as Aurora(both MySQL or PostgreSQL compatible version), Mysql, PostgreSQL, Oracle. And lastly, the scale of our application makes RDS ideal for a smaller workload.
 
 ## Security Considerations
 There is a need for sensitive info(such as: credit card info & passwords) in databases to be used and stored in a secure manner
@@ -300,3 +300,175 @@ and run this command to install the dependencies
 ```
 pip install -r requirements.txt
 ```
+
+
+and run the for this time the following command:
+```
+pip install -r requirements.txt
+```
+
+create a file under lib called db.py. this will be the connection for your backend
+```
+from psycopg_pool import ConnectionPool
+import os
+
+def query_wrap_object(template):
+  sql = f"""
+  (SELECT COALESCE(row_to_json(object_row),'{{}}'::json) FROM (
+  {template}
+  ) object_row);
+  """
+  return sql
+
+def query_wrap_array(template):
+  sql = f"""
+  (SELECT COALESCE(array_to_json(array_agg(row_to_json(array_row))),'[]'::json) FROM (
+  {template}
+  ) array_row);
+  """
+  return sql
+
+connection_url = os.getenv("CONNECTION_URL")
+pool = ConnectionPool(connection_url)
+```
+
+and insert the library into home_activities.py
+```
+from lib.db import pool,query_wrap_array
+```
+
+and add the following code
+```
+sql = """
+      SELECT
+        activities.uuid,
+        users.display_name,
+        users.handle,
+        activities.message,
+        activities.replies_count,
+        activities.reposts_count,
+        activities.likes_count,
+        activities.reply_to_activity_uuid,
+        activities.expires_at,
+        activities.created_at
+      FROM public.activities
+      LEFT JOIN public.users ON users.uuid = activities.user_uuid
+      ORDER BY activities.created_at DESC
+      """
+      print(sql)
+      span.set_attribute("app.result_length", len(results))
+      with pool.connection() as conn:
+        with conn.cursor() as cur:
+          cur.execute(sql)
+          # this will return a tuple
+          # the first field being the data
+          json = cur.fetchall()
+      return json[0]
+```
+
+from the docker-compose file change change the CONNECTIONS_URL to the following
+```
+      CONNECTION_URL: "postgresql://postgres:password@db:5432/cruddur"
+```
+
+From the console start the RDS instance if it isn't running
+
+Edit this PROD_CONNECTION_URL with the details of your RDS instance, it should point to your RDS database.
+```
+postgresql://userofthedb:masterpassword@endpointofthedb:5432/cruddur
+```
+create the local env var and on gitpod or codespace
+```
+export PROD_CONNECTION_URL="postgresql://userofthedb:masterpassword@endpointofthedb:5432/cruddur"
+gp env PROD_CONNECTION_URL="postgresql://userofthedb:masterpassword@endpointofthedb:5432/cruddur"
+```
+
+To connect to the RDS instance we need to provide our Gitpod IP.
+```
+export ipshowaddr=$(curl ifconfig.me)
+gp env ipshowaddr=$(curl ifconfig.me)
+```
+
+From your AWS console edit the RDS instance SG to allow for inbound traffic on port 5432.
+
+Create the following env vars for the RDS Security Group and the Security Group rule
+```
+export DB_SG_ID="sg-sdfsdf"
+gp env DB_SG_ID="sg-sdfsdf"
+export DB_SG_RULE_ID="sgr-sdfsdfsdf"
+gp env DB_SG_RULE_ID="sgr-sdfsdfsdf"
+```
+
+Since the ip address of GITPOD changes every time we restart the environment, we need to automatically update the RDS SG Rule for the gitpod to access the rds instance. Below, is the script for this action. Add it to a new file called rds-update-sg-rule under bin/
+```
+aws ec2 modify-security-group-rules \
+    --group-id $DB_SG_ID \
+    --security-group-rules "SecurityGroupRuleId=$DB_SG_RULE_ID,SecurityGroupRule={Description=GITPOD,IpProtocol=tcp,FromPort=5432,ToPort=5432,CidrIpv4=$ipaddrshow/32}"
+```
+
+In the file .gitpod.yml add this line of code so it will get the ip of the instance
+```
+    command: |
+      export ipaddrshow=$(curl ifconfig.me)
+      source  "$THEIA_WORKSPACE_ROOT/backend-flask/bin/rds-update-sg-rule"
+```
+
+# Creating a Lambda Function
+Create a lambda function in the same region as the rest of the services in this project.
+Add the code to a new file called cruddur-post-confirmation.py in aws/lambdas. (create aws/lambdas if it doesn't already exist)
+
+```
+import json
+import psycopg
+
+def lambda_handler(event, context):
+    user = event['request']['userAttributes']
+    print('userAttributes')
+    print(user)
+    user_display_name = user['name']
+    user_email        = user['email']
+    user_handle       = user['preferred_username']
+    user_cognito_id   = user['sub']
+    try:
+        conn = psycopg.connect(os.getenv('CONNECTION_URL'))
+        cur = conn.cursor()
+        sql = f"""
+            "INSERT INTO users (
+                display_name,
+                email,
+                handle,
+                cognito_user_id
+            ) 
+            VALUES(
+                {user_display_name},
+                {user_email},
+                {user_handle},
+                {user_cognito_id}
+            )"
+        """            
+        cur.execute(sql)
+        conn.commit() 
+
+    except (Exception, psycopg.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            cur.close()
+            conn.close()
+            print('Database connection closed.')
+
+    return event
+```
+
+The env var which our lambda function will use is CONNECTION_URL. This has the variable of the PROD_CONNECTION_URL set in gitpod or codespace (eg: PROD_CONNECTION_URL="postgresql://userofthedb:masterpassword@endpointofthedb:5432/cruddur)
+
+Once you've create the env var. From your AWS console create a Lambda Layer for the lambda function we created. 
+layer>add layers> select specify arn
+```
+arn:aws:lambda:us-east-1:898466741470:layer:psycopg2-py38:2
+```
+
+Make sure to attach the AWSLambdaVPCAccessExecutionRole policy the lambda role by going to configuration>permission> link under the Role name.
+
+Once the policy is attached, in Lambda>Configurations go to VPC and select the VPC where  the RDS instance resides,
+select the subnet mask and the same SG of the RDS instance.
