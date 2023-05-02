@@ -22,3 +22,5 @@ NOTE: A Partition Key and a Sort Key are used to organise items in a table. To m
  - DynamoDB to use appropriate Authentication - IAM Roles and AWS Cognito Identity pool (Temporary Access). Avoid IAM Groups and Users (Permanent Access).
  - DynamoDB User Lifecycle Management - Create, Modify, Delete Users. 
  - AWS IAM Role instead of individual users to access and manage DynamoDB. DAX Service IAM Role to allow Read-Only Access to DynamoDB.
+
+# Instructions
