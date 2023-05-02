@@ -6,6 +6,9 @@ Ideally, a non-relational database will allow for the consistent performance of 
  
 ### Non-Relational Database Solutions on AWS
 DynamoDB is a non-relational database solution for AWS and is used for high performance applications at any scale. 
+
+NOTE: A Partition Key and a Sort Key are used to organise items in a table. To make it easier to understand, think of table as Hogwarts, and the 4 houses each represent a Partition Key inside of the table, the Sort Key can be used to represent the classes of the students. 
+![image](https://user-images.githubusercontent.com/67550608/235657472-4ed2f8f2-69d0-415e-8a0a-6afc048fda51.png)
  
 ## Security Considerations
 ###  AWS Security Considerations
