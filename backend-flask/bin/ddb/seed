@@ -13,30 +13,40 @@ from lib.db import db
 attrs = {
     'endpoint_url': 'http://localhost:8000'
 }
+
 # unset endpoint url for use with production database
 if len(sys.argv) == 2:
     if "prod" in sys.argv[1]:
         attr = {}
 dynamodb = boto3.client('dynamodb',**attrs)
 
-sql = f"""
-    SELECT
-        users.uuid,
-        users.display_name,
-        users.handle
-    FROM users
-    WHERE
-    users.handle IN(
-        %(my_handle)s,
-        %(other_handle)s
-    )
-"""
-users = db.query_array_json(sql,{
-    'my_handle': 'andrewbrown',
-    'other_user' : 'bayko'
-})
-print("user=========")
-print(users)
+
+def get_user_uuids():
+    sql = f"""
+        SELECT
+            users.uuid,
+            users.display_name,
+            users.handle
+        FROM users
+        WHERE
+        users.handle IN(
+            %(my_handle)s,
+            %(other_handle)s
+        )
+    """
+    users = db.query_array_json(sql,{
+        'my_handle': 'andrewbrown',
+        'other_handle' : 'bayko'
+    })
+    my_user    = next((item for item in users if item["handle"] == 'andrewbrown'), None)
+    other_user = next((item for item in users if item["handle"] == 'bayko'), None)
+    results = {
+        'my_user': my_user,
+        'other_user': other_user
+    }
+    print('get_user_uuids')
+    print(results)
+    return results
 
 def create_message(client,message_group_uuid,created_at,message,my_user_uuid):
     print("")
@@ -44,22 +54,6 @@ def create_message(client,message_group_uuid,created_at,message,my_user_uuid):
 message_group_uuid = "5ae290ed-55d1-47a0-bc6d-fe2bc2700399" #str(uuid.uuid4())
 users = get_user_uuids()
 now = datetime.now(timezone.utc).astimezone()
-    
-"""
- people {
-    'my_user' = {
-        uuid:
-        display_name:
-        handle:
-
-    },
-    'other_user' = {
-        uuid:
-        display_name:
-        handle:
-    }
-}
-"""
 
 create_message_group(
   client=dynamodb,
