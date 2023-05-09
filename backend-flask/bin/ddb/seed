@@ -2,6 +2,21 @@
 
 import boto3
 
+people {
+    'my_user' = {
+        uuid:
+        display_name:
+        handle:
+
+    },
+    'other_user' = {
+        uuid:
+        display_name:
+        handle:
+    }
+}
+    
+
 # Test data
 conversation = """
 Person 1: Have you ever watched Babylon 5? It's one of my favorite TV shows!
@@ -125,9 +140,9 @@ for i in range(len(lines))
         message_group_uuid=
         created_at=
         message=
-        user_uuid=
-        user_display_name=
-        user_handle=
+        my_user_uuid=users['key'],['uuid'],
+        my_user_display_name=users['key']
+        my_user_handle=
     )
 
          
