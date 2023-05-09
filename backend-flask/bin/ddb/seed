@@ -18,8 +18,29 @@ if len(sys.argv) == 2:
     if "prod" in sys.argv[1]:
         attr = {}
 dynamodb = boto3.client('dynamodb',**attrs)
-def create_message(client,message_group_uuid,created_at,message,my_user_uuid)
+
+sql = f"""
+    SELECT
+        users.uuid,
+        users.display_name,
+        users.handle
+    FROM users
+    WHERE
+    users.handle IN(
+        %(my_handle)s,
+        %(other_handle)s
+    )
+"""
+users = db.query_array_json(sql,{
+    'my_handle': 'andrewbrown',
+    'other_user' : 'bayko'
+})
+print("user=========")
+print(users)
+
+def create_message(client,message_group_uuid,created_at,message,my_user_uuid):
     print("")
+    
 """
  people {
     'my_user' = {
@@ -147,7 +168,7 @@ Person 2: Definitely. I think his character is a great example of the show's abi
 now = datetime.now(timezone.utc).astimezone()
 
 lines = conversation.lstrip('\n').rstrip('\n').split('\n')
-for i in range(len(lines))
+for i in range(len(lines)):
     if lines[i].startswith('Person 1: '):
         key = 'my_user'
         message = lines[i].replace('Person 1: ', '')
