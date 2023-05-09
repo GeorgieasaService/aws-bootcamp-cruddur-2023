@@ -33,7 +33,7 @@ sql = f"""
 """
 users = db.query_array_json(sql,{
     'my_handle': 'andrewbrown',
-    'other_user' : 'bayko'
+    'other_handle' : 'bayko'
 })
 print("user=========")
 print(users)
