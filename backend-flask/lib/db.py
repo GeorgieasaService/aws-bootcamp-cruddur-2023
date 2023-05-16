@@ -6,7 +6,7 @@ from flask import current_app as app
 
 
 class Db:
-  def __init__(self):
+  def __init__(self): # Using a constructor to create an instance of the class
     self.init_pool()
      
   def template(self,*args):
