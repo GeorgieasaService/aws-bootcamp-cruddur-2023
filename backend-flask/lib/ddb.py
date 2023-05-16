@@ -14,3 +14,14 @@ class Ddb:
     dynamodb = boto3.client('dynamodb',**attrs)
     return dynamodb
 
+def list_message_groups(client,my_user_uuid):
+    table_name = 'cruddur-messages'
+    query_params = {
+      'TableName': table_name,
+      'KeyConditionExpression': 'pk = :pkey',
+      'ScanIndexF orward': False,
+      'Limit': 20,
+      'ExpressionAttributeValues': {
+        ':pk': {'S': f"GRP#{my_user_uuid}"}
+      }
+    }
