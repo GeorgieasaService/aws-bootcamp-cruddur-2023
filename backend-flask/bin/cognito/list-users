@@ -1,13 +1,13 @@
-#!/usr/bin/env python 3
+#!/usr/bin/env python3
 
 import boto3
 import json
 import os
 
 user_pool_id = os.environ['AWS_USER_POOL_ID']
-client_id = os.environ['AWS_APP_CLIENT_ID']
+client = boto3.client('cognito-idp')
 params = {
-  'UserPoolId': userpool_id,
+  'UserPoolId': user_pool_id,
   'AttributesToGet': [
       'preferred_username',
       'sub'
