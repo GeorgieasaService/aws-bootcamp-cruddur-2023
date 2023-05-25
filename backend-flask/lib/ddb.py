@@ -19,7 +19,7 @@ class Ddb:
       table_name = 'cruddur-messages'
       query_params = {
         'TableName': table_name,
-        'KeyConditionExpression': 'pk = :pk AND begins_with (sk,:year)',
+        'KeyConditionExpression': 'pk = :pk AND begins_with(sk,:year)',
         'ScanIndexForward': False,
         'Limit': 20,
         'ExpressionAttributeValues': {
