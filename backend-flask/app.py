@@ -147,7 +147,7 @@ def data_message_groups():
     app.logger.debug(claims)
     cognito_user_id = claims['sub']
     model = Messages.run(
-      cognito_user_id=cognito_user_id, message_group_uuid=message_group_uuid
+      cognito_user_id=cognito_user_id,
       )
     if model['errors'] is not None:
       return model['errors'], 422
@@ -158,18 +158,8 @@ def data_message_groups():
     app.logger.debug(e)   
     return {}, 401
 
-@app.route("/api/messages/@<string:message_group_uuid>", methods=['GET'])
+@app.route("/api/messages/<string:message_group_uuid>", methods=['GET'])
 def data_messages(message_group_uuid):
-  """
-  model = Messages.run(
-    message_group_uuid=message_group_uuid
-    )
-  if model['errors'] is not None:
-    return model['errors'], 422
-  else:
-    return model['data'], 200
-  return
-  """
   access_token = extract_access_token(request.headers)
   try:
     claims = cognito_jwt_token.verify(access_token)
@@ -196,8 +186,9 @@ def data_create_message():
   message_group_uuid = request.json.get('message_group_uuid',None)
   user_receiver_handle = request.json.get['handle',None]
   message = request.json['message']
+  access_token = extract_access_token(request.headers)
   try:
-    claims =cognito_jwt_token.verify(access_token)
+    claims = cognito_jwt_token.verify(access_token)
     #authenticated request
     app.logger.debug("authenticated")
     app.logger.debug(claims)
@@ -206,6 +197,7 @@ def data_create_message():
       # create for the first time
       model = CreateMessage.run(
         mode="create",
+        message=message,
         cognito_user_id=cognito_user_id,
         user_receiver_handle=user_receiver_handle
       )
