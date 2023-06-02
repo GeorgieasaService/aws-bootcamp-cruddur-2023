@@ -28,7 +28,8 @@ class Db:
     connection_url = os.getenv("CONNECTION_URL")
     self.pool = ConnectionPool(connection_url)
 # when we want to commit data such as an insert
-# be to check that RETURNING is in all uppercase
+# be to check that RETURNING is in all 
+
   def print_params(self,params):
     blue = '\033[94m'
     no_color = '\033[0m'
@@ -60,6 +61,19 @@ class Db:
     except Exception as err:
       self.print_sql_err(err)
       
+  def query_array_json(self,sql,params={}):
+  # when we want to return an array of json objects
+    self.print_sql('array',sql,params) 
+    
+    wrapped_sql = self.query_wrap_array(sql)
+    with self.pool.connection() as conn:
+      with conn.cursor() as cur:
+        cur.execute(wrapped_sql,params)
+        # this will return a tuple
+        # the first field being the data
+        json = cur.fetchone()
+        return json[0]
+       
   def query_object_json(self,sql,params={}):
   # when we want to return a json object
     self.print_sql('json',sql,params) 
@@ -76,19 +90,6 @@ class Db:
           return "{}"
         else:
           return json[0]
-      
-  def query_array_json(self,sql,params={}):
-  # when we want to return an array of json objects
-    self.print_sql('array',sql,params) 
-    
-    wrapped_sql = self.query_wrap_array(sql)
-    with self.pool.connection() as conn:
-      with conn.cursor() as cur:
-        cur.execute(wrapped_sql,params)
-        # this will return a tuple
-        # the first field being the data
-        json = cur.fetchone()
-        return json[0]
       
 # when we want to return a a single value
   def query_value(self,sql,params={}):
