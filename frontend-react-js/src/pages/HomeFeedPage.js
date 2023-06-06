@@ -48,7 +48,7 @@ export default function HomeFeedPage() {
       dataFetchedRef.current = true;
 
     loadData();
-    checkAuth();
+    checkAuth(setUser);
   }, [])
 
   return (
