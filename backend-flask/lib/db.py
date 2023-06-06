@@ -98,10 +98,7 @@ class Db:
       with conn.cursor() as cur:
         cur.execute(sql,params)
         json = cur.fetchone()
-        if json == None:
-          return None;
-        else:
-          return json[0]
+        return json[0]
         
   def query_wrap_object(self,template):
     sql = f"""
