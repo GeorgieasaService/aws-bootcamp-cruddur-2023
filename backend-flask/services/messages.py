@@ -9,7 +9,7 @@ class Messages:
       'data': None
     }
     
-    sql = db.template('users','uuid_from_cognito_user_id')
+    sql = db.template('users','uuid_from_cognito_user_id') # this block of code performs a permissions check
     my_user_uuid = db.query_value(sql,{
       'cognito_user_id': cognito_user_id
     })
