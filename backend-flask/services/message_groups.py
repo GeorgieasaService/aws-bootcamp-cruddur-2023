@@ -5,7 +5,7 @@ from lib.db import db # need the db to find the handle from the uuid
 
 class MessageGroups:
   def run(cognito_user_id):
-    print(f"priting the cognito_user_id: {cognito_user_id}")
+    print(f"printing the cognito_user_id: {cognito_user_id}")
     model = {
       'errors': None,
       'data': None
