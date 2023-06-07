@@ -87,7 +87,8 @@ class Db:
         # the first field being the data
         json = cur.fetchone()
         if json == None:
-          return "{}"
+        #  return "{}"
+          {}
         else:
           return json[0]
       
@@ -98,10 +99,13 @@ class Db:
       with conn.cursor() as cur:
         cur.execute(sql,params)
         json = cur.fetchone()
+        return json[0]
+        '''
         if json == None:
           return None
         else:
           return json[0]
+        '''
         
   def query_wrap_object(self,template):
     sql = f"""
@@ -117,7 +121,7 @@ class Db:
     {template}
     ) array_row);
     """ 
-    return sql 
+    return sql
 
   def print_sql_err(self,err):
     # get details about the exception
