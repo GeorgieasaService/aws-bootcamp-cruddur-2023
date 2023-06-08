@@ -202,7 +202,7 @@ def data_create_message():
         user_receiver_handle=user_receiver_handle
       )
     else:
-      # Push into existing Message Group
+      # Push into existing Message Group / update
       model = CreateMessage.run(
         mode="update",
         message=message,
