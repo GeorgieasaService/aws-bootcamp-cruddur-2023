@@ -22,7 +22,7 @@ export default function ActivityForm(props) {
       let json = { 'message' : message }
       if (params.handle) {
         json.handle = params.handle
-      } else 
+      } else {
         json.message_group_uuid = params.message_group_uuid
       }
 
