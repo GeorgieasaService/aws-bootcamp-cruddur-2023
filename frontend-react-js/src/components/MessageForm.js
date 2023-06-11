@@ -33,13 +33,19 @@ export default function ActivityForm(props) {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          message: message,
-        }),
+        body: JSON.stringify(json)
+
       });
       let data = await res.json();
       if (res.status === 200) {
         props.setMessages(current => [...current,data]);
+          console.log('data:',data)
+        if (data.message_group_uuid) {
+          console.log('redirect to message group')
+          window.location.href = `/messages/${data.message_group_uuid}`
+        } else {
+          props.setMessages(current => [...current,data]);
+        }
       } else {
         console.log(res)
       }
