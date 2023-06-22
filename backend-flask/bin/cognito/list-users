@@ -4,7 +4,7 @@ import boto3
 import json
 import os
 
-user_pool_id = os.environ['AWS_USER_POOL_ID']
+user_pool_id = os.getenv['AWS_USER_POOL_ID']
 client = boto3.client('cognito-idp')
 params = {
   'UserPoolId': user_pool_id,

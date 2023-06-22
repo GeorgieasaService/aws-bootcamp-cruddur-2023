@@ -22,12 +22,11 @@ class CreateMessage:
     if (mode == "create"):
       if user_receiver_handle == None or len(user_receiver_handle) < 1:
         model['errors'] = ['user_reciever_handle_blank']
-
+    
     if message == None or len(message) < 1:
       model['errors'] = ['message_blank'] 
     elif len(message) > 1024:
       model['errors'] = ['message_exceed_max_chars'] 
-
     if model['errors']:
       # return what we provided
       model['data'] = {
